@@ -1,14 +1,14 @@
 import React from 'react'
-import {Route, Router, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Login from './login'
 
 const Router = () => {
     return (
-        <Router>
+        <BrowserRouter>
             <Switch>
-                <Route path={'login'} component={Login}/>
+                <Route path={'/login'} component={Login}/>
             </Switch>
-        </Router>
+        </BrowserRouter>
     )
 }
 export default Router

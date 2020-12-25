@@ -1,11 +1,10 @@
 import React from 'react'
-import "./App.css";
-function App() {
-  return (
-    <div >
+import Router from './pages/router'
 
-    </div>
-  );
+const App = () => {
+    return (
+        <Router/>
+    )
 }
 
-export default App;
+export default App
