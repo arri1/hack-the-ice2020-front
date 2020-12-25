@@ -1,11 +1,8 @@
-import 'antd/dist/antd.css'
-import React from 'react'
-import Router from './pages/router'
+import React from "react";
+import Router from "./pages/router";
 
 const App = () => {
-    return (
-        <Router/>
-    )
-}
+    return <Router />;
+};
 
-export default App
+export default App;
