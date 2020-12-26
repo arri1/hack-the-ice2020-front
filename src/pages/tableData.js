@@ -1,18 +1,10 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { Table, Button, Tag, Space, Input, Select } from "antd";
+import { Table, Select, Row, Layout } from "antd";
 import Validation from "./validation";
-import {
-    XYPlot,
-    XAxis,
-    YAxis,
-    VerticalGridLines,
-    HorizontalGridLines,
-    VerticalBarSeries,
-    VerticalBarSeriesCanvas,
-    LabelSeries,
-} from "react-vis";
+import Graphs from "../components/graphs";
+import Header from "../components/header";
 
+const { Footer, Sider, Content } = Layout;
 const { Option } = Select;
 const options = [
     "verification",
@@ -44,11 +36,12 @@ for (let i = 0; i < options.length; i++) {
     );
 }
 
-const someData = Object.entries(Validation.companies).map((item) => {
+const formattedData = Object.entries(Validation.companies).map((item) => {
     const [key, value] = item;
     const result = { ...value, name: key };
     return result;
 });
+
 const TableData = () => {
     const [showColumns, setShowColumns] = useState(false);
     function handleChange(value) {
@@ -59,7 +52,7 @@ const TableData = () => {
 
     const columns = [
         {
-            title: "name",
+            title: "{<a>name</a>",
             dataIndex: "name",
             key: "name",
             fixed: "left",
@@ -191,18 +184,43 @@ const TableData = () => {
         },
     ];
     return (
-        <div>
-            <Select
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder="choose filters"
-                onChange={handleChange}
-                optionLabelProp="label"
-            >
-                {displayOptions}
-            </Select>
-            <Table columns={columns} dataSource={someData}></Table>
-        </div>
+        <Layout>
+            <Header></Header>
+            <Layout>
+                <Content>
+                    <Select
+                        mode="multiple"
+                        style={{
+                            width: "100%",
+                        }}
+                        placeholder="choose filters"
+                        onChange={handleChange}
+                        optionLabelProp="label"
+                    >
+                        {displayOptions}
+                    </Select>
+
+                    <Table
+                        scroll={{
+                            x: "auto",
+                        }}
+                        bordered={true}
+                        style={{ margin: "0 50px", borderRadius: "50px" }}
+                        columns={columns}
+                        dataSource={formattedData}
+                        expandable={{
+                            expandedRowRender: (record) => (
+                                <p style={{ margin: 0 }}>{<Graphs></Graphs>}</p>
+                            ),
+                            rowExpandable: (record) =>
+                                record.name !== "Not Expandable",
+                        }}
+                    ></Table>
+                </Content>
+            </Layout>
+            <Graphs></Graphs>
+            <Footer>Footer</Footer>
+        </Layout>
     );
 };
 
