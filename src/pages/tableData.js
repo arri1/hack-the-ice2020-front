@@ -17,12 +17,12 @@ const options = [
     "Средняя цена",
     "Кол-во товара",
     "Медианная скидка",
-    "Cреднее качество обратной связи",
+    "Средний отзыв",
     "Кол-во просмотров",
     "Средняя стоимость доставки",
     "Медианное значение доставки",
     "Медианное значение доставки",
-    "mean_call",
+    "Cреднее качество обратной связи",
     "part_good_order",
     "part_orders_of_online",
     "part_orders_of_views",
@@ -123,14 +123,7 @@ const columns = [
     },
 
     {
-        title: "Медианное значение доставки",
-        dataIndex: "median_delivery_time",
-        key: "median_delivery_time",
-        sorter: (a, b) => a.median_delivery_time - b.median_delivery_time,
-    },
-
-    {
-        title: "mean_call",
+        title: "Среднее качество обратной связи",
         dataIndex: "mean_call",
         key: "mean_call",
         sorter: (a, b) => a.mean_call - b.mean_call,
