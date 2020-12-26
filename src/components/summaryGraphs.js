@@ -30,7 +30,7 @@ const chartData = formattedData.map((item) => {
     };
     return result;
 });
-const Graphs = () => {
+const SummaryGraphs = () => {
     return (
         <div>
             <Row>
@@ -84,4 +84,4 @@ const Graphs = () => {
     );
 };
 
-export default Graphs;
+export default SummaryGraphs;
