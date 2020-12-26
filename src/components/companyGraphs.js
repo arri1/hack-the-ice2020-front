@@ -23,19 +23,7 @@ const formattedData = Object.entries(Validation.companies).map((item) => {
     return {...value, name: key};
 });
 
-<<<<<<< HEAD
-const CompanyGraphs = ({
-    name,
-    bad,
-    good,
-    views,
-    sales,
-    product_price,
-    delivery_price,
-}) => {
-=======
 const CompanyGraphs = ({name, bad, good, views, sales,id}) => {
->>>>>>> 3e2007eb3b820fcd54200e704d67ef174512a782
     const orders = [
         {
             'Название компании': name,
@@ -82,25 +70,17 @@ const CompanyGraphs = ({name, bad, good, views, sales,id}) => {
                 >
                     Средняя цена товара и <br></br>средняя цена доставки
                 </Title>
-                <p>{product_price}</p>
-                <p>{delivery_price}</p>
                 <LineChart
                     width={600}
                     height={230}
                     data={formattedData}
                     margin={{top: 10, right: 30, left: 0, bottom: 0}}
                 >
-<<<<<<< HEAD
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip position={{ x: { name }, y: { product_price } }} />
-=======
+
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="name"/>
                     <YAxis/>
                     <Tooltip position={{y: 0.0005250757465347217}}/>
->>>>>>> 3e2007eb3b820fcd54200e704d67ef174512a782
                     <Line
                         type="monotone"
                         dataKey="mean_product_price"

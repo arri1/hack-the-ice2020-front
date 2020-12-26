@@ -164,13 +164,10 @@ const TableData = () => {
             });
     }, []);
 
-<<<<<<< HEAD
-    const handleChange = () => {};
-=======
+
     const handleChange = (e) => {
         console.log(e)
     }
->>>>>>> 3e2007eb3b820fcd54200e704d67ef174512a782
 
     return (
         <Container>
@@ -197,19 +194,6 @@ const TableData = () => {
                 style={{ margin: "0 50px", borderRadius: "50px" }}
                 columns={columns}
                 dataSource={data}
-<<<<<<< HEAD
-                expandedRowRender={(record) => (
-                    <div style={{ margin: 20 }}>
-                        <CompanyGraphs
-                            name={record.name}
-                            bad={record.good_orders}
-                            good={record.good_orders}
-                            views={record.sum_views}
-                            sales={record.median_sale}
-                        />
-                    </div>
-                )}
-=======
                 expandedRowRender={
                     (record) => (
                         <div style={{margin: 20}}>
@@ -219,7 +203,6 @@ const TableData = () => {
                         </div>
                     )
                 }
->>>>>>> 3e2007eb3b820fcd54200e704d67ef174512a782
             />
             <SummaryGraphs data={data} />
         </Container>
