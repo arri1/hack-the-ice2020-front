@@ -54,12 +54,18 @@ const columns = [
         dataIndex: 'verification',
         key: 'verification',
         sorter: (a, b) => a.verification - b.verification,
+        render:(value)=>{
+            return value?'да':'нет'
+        }
     },
     {
         title: 'Собственник',
         dataIndex: 'own',
         key: 'own',
         sorter: (a, b) => a.own - b.own,
+        render:(value)=>{
+            return value?'да':'нет'
+        }
     },
     {
         title: 'Кол-во дней на сайте',
@@ -102,6 +108,9 @@ const columns = [
         dataIndex: 'mean_feedback',
         key: 'mean_feedback',
         sorter: (a, b) => a.mean_feedback - b.mean_feedback,
+        render:(value)=>{
+            return value.toFixed(2)
+        }
     },
     {
         title: 'Кол-во просмотров',
@@ -114,6 +123,9 @@ const columns = [
         dataIndex: 'mean_cost_delivery',
         key: 'mean_cost_delivery',
         sorter: (a, b) => a.mean_cost_delivery - b.mean_cost_delivery,
+        render:(value)=>{
+            return value.toFixed(2)
+        }
     },
     {
         title: 'Медианное значение доставки',
@@ -134,6 +146,9 @@ const columns = [
         dataIndex: 'mean_call',
         key: 'mean_call',
         sorter: (a, b) => a.mean_call - b.mean_call,
+        render:(value)=>{
+            return value.toFixed(2)
+        }
     },
 ];
 
