@@ -36,11 +36,10 @@ for (let i = 0; i < options.length; i++) {
         </Option>
     );
 }
-
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+    display: flex;
+    flex-direction: column;
+`;
 const columns = [
     {
         title: 'Наименование организации',
@@ -140,7 +139,7 @@ const columns = [
 
 const TableData = () => {
     const [data, setData] = useState([])
-    const [loading,setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         axios.get('https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1')

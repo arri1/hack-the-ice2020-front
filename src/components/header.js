@@ -3,14 +3,14 @@ import { Header as antHeader, Avatar, Row, Typography, Space } from "antd";
 import styled from "styled-components";
 
 const StyledHeader = styled.div`
-    background: #395bec;
+    background: ${(props) => (props.primary ? "#395bec" : "white")};
     padding: 5px 20px;
     width: 100%;
 `;
 const { Title } = Typography;
 const Header = () => {
     return (
-        <StyledHeader>
+        <StyledHeader primary>
             <Row>
                 <Space align="center">
                     <Avatar size={50} src="/images/Group_1.png" />
