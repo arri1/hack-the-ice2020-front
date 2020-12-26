@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, Table } from "antd";
 import styled from "styled-components";
-import Validation from "../data/validation";
+import axios from "axios";
 import CompanyGraphs from "../components/companyGraphs";
 import SummaryGraphs from "../components/summaryGraphs";
 import Header from "../components/header";
@@ -30,19 +30,12 @@ const options = [
 
 const displayOptions = [];
 for (let i = 0; i < options.length; i++) {
-    console.log(options[i]);
     displayOptions.push(
         <Option value={options[i]} label={options[i]}>
             <div>{options[i]}</div>
         </Option>
     );
 }
-
-const formattedData = Object.entries(Validation.companies).map((item) => {
-    const [key, value] = item;
-    return { ...value, name: key };
-});
-
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -145,11 +138,25 @@ const columns = [
 ];
 
 const TableData = () => {
-    const [showColumns, setShowColumns] = useState(false);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleChange = () => {
-        setShowColumns(true);
-    };
+    useEffect(() => {
+        axios
+            .get(
+                "https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1"
+            )
+            .then(({ data: { items } }) => {
+                setLoading(false);
+                setData(items);
+            })
+            .catch((e) => {
+                setLoading(false);
+                console.log(e.message);
+            });
+    }, []);
+
+    const handleChange = () => {};
 
     return (
         <Container>
@@ -170,11 +177,12 @@ const TableData = () => {
                 scroll={{
                     x: "auto",
                 }}
+                loading={loading}
                 bordered={true}
                 rowKey={(obj) => obj.name}
                 style={{ margin: "0 50px", borderRadius: "50px" }}
                 columns={columns}
-                dataSource={formattedData}
+                dataSource={data}
                 expandedRowRender={(record) => (
                     <div style={{ margin: 20 }}>
                         <CompanyGraphs
@@ -183,13 +191,11 @@ const TableData = () => {
                             good={record.good_orders}
                             views={record.sum_views}
                             sales={record.median_sale}
-                            product_price={record.mean_product_price}
-                            delivery_price={record.mean_cost_delivery}
                         />
                     </div>
                 )}
             />
-            <SummaryGraphs data={formattedData} />
+            <SummaryGraphs data={data} />
         </Container>
     );
 };
