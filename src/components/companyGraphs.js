@@ -12,6 +12,9 @@ import {
     Pie,
     Sector,
     Cell,
+    AreaChart,
+    Tooltip,
+    Area,
 } from "recharts";
 const { Title } = Typography;
 const formattedData = Object.entries(Validation.companies).map((item) => {
@@ -41,7 +44,7 @@ const CompanyGraphs = ({ name, bad, good, views, sales }) => {
         { name: "Заказы", value: good * 1000 },
     ];
     console.log(piechart1);
-    const COLORS = ["#0088FE", "#00C49F"];
+    const COLORS = ["#395BEC", "#00BAFF"];
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({
         cx,
@@ -78,6 +81,31 @@ const CompanyGraphs = ({ name, bad, good, views, sales }) => {
                 >
                     Соотношение сорванных и <br></br>успешных заказов
                 </Title>
+                <AreaChart
+                    width={600}
+                    height={200}
+                    data={formattedData}
+                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip position={{ y: 0.0005250757465347217 }} />
+                    <Area
+                        type="monotone"
+                        dataKey="median_sale"
+                        stroke="#8884d8"
+                        fill="#00BAFF"
+                    />
+                </AreaChart>
+            </div>
+            <div>
+                <Title
+                    level={5}
+                    style={{ marginLeft: "50px", textAlign: "center" }}
+                >
+                    Соотношение сорванных и <br></br>успешных заказов
+                </Title>
 
                 <BarChart width={300} height={250} data={orders}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -92,16 +120,12 @@ const CompanyGraphs = ({ name, bad, good, views, sales }) => {
                 <Title level={5} style={{ textAlign: "center" }}>
                     Соотношение просмотренных и <br></br>купленных товаров
                 </Title>
-                <PieChart
-                    width={250}
-                    height={200}
-                    style={{ margin: "-35px 100px" }}
-                >
+                <PieChart width={250} height={200}>
                     <Pie
                         data={piechart1}
                         dataKey={"value"}
                         cx={120}
-                        cy={120}
+                        cy={80}
                         // innerRadius={30}
                         outerRadius={70}
                         // paddingAngle={5}
