@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Table } from 'antd';
+import { Select, Table, Skeleton } from 'antd';
 import styled from 'styled-components';
 import axios from 'axios';
 import CompanyGraphs from '../components/companyGraphs';
@@ -35,6 +35,7 @@ for (let i = 0; i < options.length; i++) {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    background-color: rgba(196, 196, 196, 0.2);
 `;
 const columns = [
     {
@@ -149,7 +150,7 @@ const TableData = () => {
     useEffect(() => {
         axios
             .get(
-                'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1'
+                'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D'
             )
             .then(({ data: { items } }) => {
                 setLoading(false);
@@ -191,7 +192,7 @@ const TableData = () => {
                 loading={loading}
                 bordered={true}
                 rowKey={(obj) => obj.id}
-                style={{ margin: '0 50px', borderRadius: '50px' }}
+                style={{ margin: '0 50px' }}
                 columns={viewColumns}
                 dataSource={data}
                 expandedRowRender={(record) => (
@@ -200,7 +201,14 @@ const TableData = () => {
                     </div>
                 )}
             />
-            <SummaryGraphs data={data} />
+            <Skeleton
+                title={false}
+                paragraph={{ rows: 10 }}
+                loading={loading}
+                width={'300px'}
+            >
+                <SummaryGraphs data={data} />
+            </Skeleton>
         </Container>
     );
 };

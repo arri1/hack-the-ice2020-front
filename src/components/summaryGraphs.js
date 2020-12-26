@@ -24,7 +24,7 @@ const SummaryGraphs = ({ data: formattedData }) => {
                         level={5}
                         style={{ marginLeft: '50px', textAlign: 'center' }}
                     >
-                        Средняя цена товара и <br></br>средняя цена доставки
+                        Средняя цена товара <br></br>топ 10 компаниий
                     </Title>
 
                     <ComposedChart
@@ -55,7 +55,8 @@ const SummaryGraphs = ({ data: formattedData }) => {
                         level={5}
                         style={{ marginLeft: '50px', textAlign: 'center' }}
                     >
-                        Средняя цена товара и <br></br>средняя цена доставки
+                        Количество товаров, время онлайн<br></br>и медианная
+                        скидка топ 10 компаниий
                     </Title>
                     <ComposedChart
                         width={650}
@@ -86,12 +87,13 @@ const SummaryGraphs = ({ data: formattedData }) => {
                     </ComposedChart>
                 </div>
             </Row>
-            <div>
+            <div style={{ marginTop: '30px' }}>
                 <Title
                     level={5}
                     style={{ marginLeft: '50px', textAlign: 'center' }}
                 >
-                    Средняя цена товара и <br></br>средняя цена доставки
+                    Успешные/сорванные заказы <br></br> и кол-во товаров топ 10
+                    компаниий
                 </Title>
                 <BarChart
                     width={1350}
@@ -104,9 +106,9 @@ const SummaryGraphs = ({ data: formattedData }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="good_orders" stackId="a" fill="#8884d8" />
-                    <Bar dataKey="bad_orders" stackId="a" fill="#82ca9d" />
-                    <Bar dataKey="count_products" fill="#ffc658" />
+                    <Bar dataKey="good_orders" stackId="a" fill="#395BEC" />
+                    <Bar dataKey="bad_orders" stackId="a" fill="#00BAFF" />
+                    <Bar dataKey="count_products" fill="#413ea0" />
                 </BarChart>
             </div>
         </div>

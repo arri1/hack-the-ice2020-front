@@ -21,11 +21,6 @@ import {
 
 const { Title } = Typography;
 
-const formattedData = Object.entries(Validation.companies).map((item) => {
-    const [key, value] = item;
-    return { ...value, name: key };
-});
-
 const CompanyGraphs = ({ id }) => {
     const [orders, setOrders] = useState([]);
     const [products, setProducts] = useState([]);
