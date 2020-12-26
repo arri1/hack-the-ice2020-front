@@ -168,7 +168,8 @@ const TableData = () => {
             })
     }, [])
 
-    const handleChange = () => {
+    const handleChange = (e) => {
+        console.log(e)
     }
 
     return (
@@ -200,11 +201,7 @@ const TableData = () => {
                     (record) => (
                         <div style={{margin: 20}}>
                             <CompanyGraphs
-                                name={record.name}
-                                bad={record.good_orders}
-                                good={record.good_orders}
-                                views={record.sum_views}
-                                sales={record.median_sale}
+                                id={record.id}
                             />
                         </div>
                     )
