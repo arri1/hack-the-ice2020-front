@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
-import { Select, Table } from 'antd';
-=======
-import React, {useEffect, useState} from 'react';
-import {Select, Table} from 'antd';
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
+import { Select, Table, Skeleton } from 'antd';
 import styled from 'styled-components';
 import axios from 'axios';
 import CompanyGraphs from '../components/companyGraphs';
 import SummaryGraphs from '../components/summaryGraphs';
 import Header from '../components/header';
 
-const {Option} = Select;
+const { Option } = Select;
 const options = [
     'Рейтинг',
     'Наименование организации',
@@ -26,15 +21,7 @@ const options = [
     'Кол-во просмотров',
     'Средняя стоимость доставки',
     'Медианное значение доставки',
-<<<<<<< HEAD
-    'Медианное значение доставки',
     'Cреднее качество обратной связи',
-    'part_good_order',
-    'part_orders_of_online',
-    'part_orders_of_views',
-=======
-    'Cреднее качество обратной связи',
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
 ];
 
 const displayOptions = [];
@@ -48,12 +35,13 @@ for (let i = 0; i < options.length; i++) {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    background-color: rgba(196, 196, 196, 0.2);
 `;
 const columns = [
     {
         title: 'Наименование организации',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'company',
+        key: 'company',
         fixed: 'left',
         sorter: (a, b) => a.rate - b.rate,
         defaultSortOrder: ['descend'],
@@ -64,13 +52,8 @@ const columns = [
         key: 'verification',
         sorter: (a, b) => a.verification - b.verification,
         render: (value) => {
-<<<<<<< HEAD
             return value ? 'да' : 'нет';
         },
-=======
-            return value ? 'да' : 'нет'
-        }
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
     },
     {
         title: 'Собственник',
@@ -78,13 +61,8 @@ const columns = [
         key: 'own',
         sorter: (a, b) => a.own - b.own,
         render: (value) => {
-<<<<<<< HEAD
             return value ? 'да' : 'нет';
         },
-=======
-            return value ? 'да' : 'нет'
-        }
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
     },
     {
         title: 'Кол-во дней на сайте',
@@ -128,13 +106,8 @@ const columns = [
         key: 'mean_feedback',
         sorter: (a, b) => a.mean_feedback - b.mean_feedback,
         render: (value) => {
-<<<<<<< HEAD
             return value.toFixed(2);
         },
-=======
-            return value.toFixed(2)
-        }
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
     },
     {
         title: 'Кол-во просмотров',
@@ -148,13 +121,8 @@ const columns = [
         key: 'mean_cost_delivery',
         sorter: (a, b) => a.mean_cost_delivery - b.mean_cost_delivery,
         render: (value) => {
-<<<<<<< HEAD
             return value.toFixed(2);
         },
-=======
-            return value.toFixed(2)
-        }
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
     },
     {
         title: 'Медианное значение доставки',
@@ -169,27 +137,22 @@ const columns = [
         key: 'mean_call',
         sorter: (a, b) => a.mean_call - b.mean_call,
         render: (value) => {
-<<<<<<< HEAD
             return value.toFixed(2);
         },
-=======
-            return value.toFixed(2)
-        }
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
     },
 ];
 
 const TableData = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedColumns, setSelectedColumns] = useState(options)
+    const [selectedColumns, setSelectedColumns] = useState(options);
 
     useEffect(() => {
         axios
             .get(
-                'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1'
+                'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D'
             )
-            .then(({data: {items}}) => {
+            .then(({ data: { items } }) => {
                 setLoading(false);
                 setData(items);
             })
@@ -199,23 +162,16 @@ const TableData = () => {
             });
     }, []);
 
-<<<<<<< HEAD
-    const handleChange = (e) => {
-        console.log(e);
-    };
-=======
-    const viewColumns=columns.reduce((acum,item)=>{
+    const viewColumns = columns.reduce((acum, item) => {
         if (selectedColumns.includes(item.title)) {
-            acum.push(item)
+            acum.push(item);
         }
-        return acum
-
-    },[])
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
+        return acum;
+    }, []);
 
     return (
         <Container>
-            <Header/>
+            <Header />
             <Select
                 mode="multiple"
                 style={{
@@ -224,7 +180,7 @@ const TableData = () => {
                 placeholder="choose filters"
                 optionLabelProp="label"
                 value={selectedColumns}
-                onChange={value => setSelectedColumns(value)}
+                onChange={(value) => setSelectedColumns(value)}
             >
                 {displayOptions}
             </Select>
@@ -235,32 +191,24 @@ const TableData = () => {
                 }}
                 loading={loading}
                 bordered={true}
-                rowKey={(obj) => obj.name}
-<<<<<<< HEAD
-                style={{ margin: '0 50px', borderRadius: '50px' }}
-                columns={columns}
+                rowKey={(obj) => obj.id}
+                style={{ margin: '0 50px' }}
+                columns={viewColumns}
                 dataSource={data}
                 expandedRowRender={(record) => (
                     <div style={{ margin: 20 }}>
                         <CompanyGraphs id={record.id} />
                     </div>
                 )}
-=======
-                style={{margin: '0 50px', borderRadius: '50px'}}
-                columns={viewColumns}
-                dataSource={data}
-                expandedRowRender={
-                    (record) => (
-                        <div style={{margin: 20}}>
-                            <CompanyGraphs
-                                id={record.id}
-                            />
-                        </div>
-                    )
-                }
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
             />
-            <SummaryGraphs data={data}/>
+            <Skeleton
+                title={false}
+                paragraph={{ rows: 10 }}
+                loading={loading}
+                width={'300px'}
+            >
+                <SummaryGraphs data={data} />
+            </Skeleton>
         </Container>
     );
 };
