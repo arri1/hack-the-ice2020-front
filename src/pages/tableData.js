@@ -171,10 +171,11 @@ const TableData = () => {
                     x: 'auto',
                 }}
                 bordered={true}
+                rowKey={(obj) => obj.name}
                 style={{margin: '0 50px', borderRadius: '50px'}}
                 columns={columns}
                 dataSource={formattedData}
-                expandable={
+                expandedRowRender={
                     (record) => (
                         <div style={{margin: 20}}>
                             <CompanyGraphs
