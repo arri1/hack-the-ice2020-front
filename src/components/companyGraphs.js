@@ -70,11 +70,11 @@ const CompanyGraphs = ({ name, bad, good, views, sales }) => {
                     level={5}
                     style={{ marginLeft: "50px", textAlign: "center" }}
                 >
-                    Соотношение сорванных и <br></br>успешных заказов
+                    Средняя цена товара и <br></br>средняя цена доставки
                 </Title>
                 <LineChart
                     width={600}
-                    height={200}
+                    height={230}
                     data={formattedData}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                 >
@@ -84,7 +84,7 @@ const CompanyGraphs = ({ name, bad, good, views, sales }) => {
                     <Tooltip position={{ y: 0.0005250757465347217 }} />
                     <Line
                         type="monotone"
-                        dataKey="median_sale"
+                        dataKey="mean_product_price"
                         stroke="#8884d8"
                         activeDot={{ r: 8 }}
                     />
