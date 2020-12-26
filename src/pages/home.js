@@ -1,27 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/header';
-import { Tabs, Space, Menu, Input, Layout } from 'antd';
-const { TabPane } = Tabs;
-const { SubMenu } = Menu;
-const { Search } = Input;
+import {Input, Menu, Tabs} from 'antd';
+
+const {TabPane} = Tabs;
+const {SubMenu} = Menu;
+const {Search} = Input;
 const Container = styled.div``;
 const Home = () => {
     return (
         <Container>
-            <Header primary />
+            <Header primary/>
 
             <Tabs defaultActiveKey="1">
-                {[...Array.from({ length: 15 }, (v, i) => i)].map((i) => (
+                {[...Array.from({length: 15}, (v, i) => i)].map((i) => (
                     <TabPane
                         tab={`Tab-${i}`}
                         key={i}
                         disabled={i === 28}
-                    ></TabPane>
+                    />
                 ))}
             </Tabs>
             <Menu
-                style={{ width: 256 }}
+                style={{width: 256}}
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
@@ -53,7 +54,7 @@ const Home = () => {
 
                 <Search
                     placeholder="input search text"
-                    style={{ width: 200, margin: '0 20px' }}
+                    style={{width: 200, margin: '0 20px'}}
                 />
             </Menu>
         </Container>
