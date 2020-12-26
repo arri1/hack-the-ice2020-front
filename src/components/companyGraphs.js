@@ -1,5 +1,6 @@
-import React from 'react';
-import { Row, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Row, Typography, Skeleton } from 'antd';
 import Validation from '../data/validation';
 import {
     Bar,
@@ -10,10 +11,12 @@ import {
     Line,
     LineChart,
     Pie,
-    PieChart,
     Tooltip,
     XAxis,
+    PieChart,
     YAxis,
+    AreaChart,
+    Area,
 } from 'recharts';
 
 const { Title } = Typography;
@@ -23,22 +26,38 @@ const formattedData = Object.entries(Validation.companies).map((item) => {
     return { ...value, name: key };
 });
 
-<<<<<<< HEAD
-const CompanyGraphs = ({ name, bad, good, views, sales, id }) => {
-=======
-const CompanyGraphs = ({name, bad, good, views, sales,id}) => {
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
-    const orders = [
+const CompanyGraphs = ({ id }) => {
+    const [orders, setOrders] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [company, setCompany] = useState('');
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        axios
+            .get(
+                `https://hack-the-ice2020-python-back.herokuapp.com/api/companies/${id}`
+            )
+            .then(({ data: { orders, products, company } }) => {
+                setLoading(false);
+                setOrders(orders);
+                setProducts(products);
+                setCompany(company);
+            })
+            .catch((e) => {
+                setLoading(false);
+                console.log(e.message);
+            });
+    }, []);
+    const piechart1 = [
         {
-            'Название компании': name,
-            'Кол-во выполненных заказов': good,
-            'Кол-во сорванных заказов': bad,
+            name: 'успешные заказы',
+            value: orders.reduce((total, obj) => obj.good + total, 0),
+        },
+        {
+            name: 'сорванные заказы',
+            value: orders.reduce((total, obj) => obj.bad + total, 0),
         },
     ];
-    const piechart1 = [
-        { name: 'Просмотры', value: views },
-        { name: 'Заказы', value: good * 1000 },
-    ];
+
     const COLORS = ['#395BEC', '#00BAFF'];
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({
@@ -67,88 +86,102 @@ const CompanyGraphs = ({name, bad, good, views, sales,id}) => {
     };
     return (
         <Row>
-            <div>
-                <Title
-                    level={5}
-                    style={{ marginLeft: '50px', textAlign: 'center' }}
-                >
-                    Средняя цена товара и <br></br>средняя цена доставки
-                </Title>
-<<<<<<< HEAD
-
-=======
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
-                <LineChart
-                    width={600}
-                    height={230}
-                    data={formattedData}
-                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                >
-<<<<<<< HEAD
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip position={{ y: 0.0005250757465347217 }} />
-=======
-
-                    <CartesianGrid strokeDasharray="3 3"/>
-                    <XAxis dataKey="name"/>
-                    <YAxis/>
-                    <Tooltip position={{y: 0.0005250757465347217}}/>
->>>>>>> a45ddcf5b2274190ac38d5a8bc476117399fd65f
-                    <Line
-                        type="monotone"
-                        dataKey="mean_product_price"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey="mean_cost_delivery"
-                        stroke="#82ca9d"
-                    />
-                    <Legend />
-                </LineChart>
-            </div>
-            <div>
-                <Title
-                    level={5}
-                    style={{ marginLeft: '50px', textAlign: 'center' }}
-                >
-                    Соотношение сорванных и <br></br>успешных заказов
-                </Title>
-
-                <BarChart width={300} height={250} data={orders}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="Название компании" />
-                    <YAxis />
-                    <Bar dataKey="Кол-во сорванных заказов" fill="#8884d8" />
-                    <Bar dataKey="Кол-во выполненных заказов" fill="#82ca9d" />
-                    <Legend layout={'vertical'} />
-                </BarChart>
-            </div>
-            <div>
-                <Title level={5} style={{ textAlign: 'center' }}>
-                    Соотношение просмотренных и <br></br>купленных товаров
-                </Title>
-                <PieChart width={250} height={200}>
-                    <Pie
-                        data={piechart1}
-                        dataKey={'value'}
-                        cx={120}
-                        cy={80}
-                        outerRadius={70}
-                        isAnimationActive={false}
-                        labelLine={false}
-                        label={renderCustomizedLabel}
+            <Skeleton loading={loading}>
+                <div>
+                    <Title
+                        level={5}
+                        style={{ marginLeft: '50px', textAlign: 'center' }}
                     >
-                        {piechart1.map((entry, index) => (
-                            <Cell fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Legend height={'0'} />
-                </PieChart>
-            </div>
+                        Средняя цена товара и <br></br>средняя цена доставки
+                    </Title>
+                    <AreaChart
+                        width={730}
+                        height={250}
+                        data={orders}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                    >
+                        <defs>
+                            <linearGradient
+                                id="colorUv"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop
+                                    offset="5%"
+                                    stopColor="#00BAFF"
+                                    stopOpacity={0.8}
+                                />
+                                <stop
+                                    offset="95%"
+                                    stopColor="#00BAFF"
+                                    stopOpacity={0}
+                                />
+                            </linearGradient>
+                            <linearGradient
+                                id="colorPv"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop
+                                    offset="5%"
+                                    stopColor="#395BEC"
+                                    stopOpacity={0.8}
+                                />
+                                <stop
+                                    offset="95%"
+                                    stopColor="#395BEC"
+                                    stopOpacity={0}
+                                />
+                            </linearGradient>
+                        </defs>
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        {/* <CartesianGrid strokeDasharray="3 3" /> */}
+                        <Tooltip />
+                        <Area
+                            type="monotone"
+                            dataKey="delivery_cost"
+                            stroke="#00BAFF"
+                            fillOpacity={1}
+                            fill="url(#colorUv)"
+                        />
+                        <Area
+                            type="monotone"
+                            dataKey="delivery_time"
+                            stroke="#395BEC"
+                            fillOpacity={1}
+                            fill="url(#colorPv)"
+                        />
+                    </AreaChart>
+                </div>
+
+                <div>
+                    <Title level={5} style={{ textAlign: 'center' }}>
+                        Соотношение сорванных и <br></br>успешных заказов
+                    </Title>
+                    <PieChart width={250} height={200}>
+                        <Pie
+                            data={piechart1}
+                            dataKey="value"
+                            cx={120}
+                            cy={80}
+                            outerRadius={70}
+                            isAnimationActive={false}
+                            labelLine={false}
+                            label={renderCustomizedLabel}
+                        >
+                            {piechart1.map((entry, index) => (
+                                <Cell fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Legend height={'0'} />
+                    </PieChart>
+                </div>
+            </Skeleton>
         </Row>
     );
 };
