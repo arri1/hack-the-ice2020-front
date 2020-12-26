@@ -183,6 +183,8 @@ const TableData = () => {
                             good={record.good_orders}
                             views={record.sum_views}
                             sales={record.median_sale}
+                            product_price={record.mean_product_price}
+                            delivery_price={record.mean_cost_delivery}
                         />
                     </div>
                 )}
