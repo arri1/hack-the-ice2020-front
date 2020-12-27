@@ -1,30 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/header';
-import {
-    EditOutlined,
-    EllipsisOutlined,
-    SettingOutlined,
-} from '@ant-design/icons';
 
-import {
-    Input,
-    Menu,
-    Tabs,
-    Card,
-    Col,
-    Popover,
-    Button,
-    Row,
-    Space,
-    Image,
-    Typography,
-} from 'antd';
+import { Input, Menu, Tabs, Card, Button, Row, Image, Typography } from 'antd';
 
-const { TabPane } = Tabs;
-const { SubMenu } = Menu;
-const { Search } = Input;
-const { Title } = Typography;
 const { Meta } = Card;
 const Container = styled.div`
     display: flex;
@@ -32,12 +11,7 @@ const Container = styled.div`
     background-color: rgba(196, 196, 196, 0.2);
     height: 100vh;
 `;
-// const content = (
-//     <div>
-//         <p>Content</p>
-//         <p>Content</p>
-//     </div>
-// );
+
 const Home = () => {
     return (
         <Container>

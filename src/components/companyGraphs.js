@@ -1,21 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Row, Skeleton, Typography} from 'antd';
-import {Area, AreaChart, Cell, Legend, Pie, PieChart, Tooltip, XAxis, YAxis,} from 'recharts';
+import { Row, Skeleton, Typography } from 'antd';
+import {
+    Area,
+    AreaChart,
+    Cell,
+    Legend,
+    Pie,
+    PieChart,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from 'recharts';
 
-const {Title} = Typography;
+const { Title } = Typography;
 
-const CompanyGraphs = ({id}) => {
+const CompanyGraphs = ({ id }) => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        if (id === undefined || id === null)
-            return null
+        if (id === undefined || id === null) return null;
         axios
             .get(
                 `https://hack-the-ice2020-python-back.herokuapp.com/api/companies/${id}`
             )
-            .then(({data: {orders, products, company}}) => {
+            .then(({ data: { orders } }) => {
                 setLoading(false);
                 setOrders(orders);
             })
@@ -26,11 +35,11 @@ const CompanyGraphs = ({id}) => {
     }, [id]);
     const pieChart = [
         {
-            name: 'успешные заказы',
+            name: 'Успешные заказы',
             value: orders.reduce((total, obj) => obj.good + total, 0),
         },
         {
-            name: 'сорванные заказы',
+            name: 'Сорванные заказы',
             value: orders.reduce((total, obj) => obj.bad + total, 0),
         },
     ];
@@ -38,13 +47,13 @@ const CompanyGraphs = ({id}) => {
     const COLORS = ['#395BEC', '#00BAFF'];
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({
-                                       cx,
-                                       cy,
-                                       midAngle,
-                                       innerRadius,
-                                       outerRadius,
-                                       percent,
-                                   }) => {
+        cx,
+        cy,
+        midAngle,
+        innerRadius,
+        outerRadius,
+        percent,
+    }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -67,15 +76,15 @@ const CompanyGraphs = ({id}) => {
                 <div>
                     <Title
                         level={5}
-                        style={{marginLeft: '50px', textAlign: 'center'}}
+                        style={{ marginLeft: '50px', textAlign: 'center' }}
                     >
-                        Средняя цена товара и <br></br>средняя цена доставки
+                        Средняя цена товара и <br></br>среднее время доставки
                     </Title>
                     <AreaChart
                         width={730}
                         height={250}
                         data={orders}
-                        margin={{top: 10, right: 30, left: 0, bottom: 0}}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                     >
                         <defs>
                             <linearGradient
@@ -115,12 +124,13 @@ const CompanyGraphs = ({id}) => {
                                 />
                             </linearGradient>
                         </defs>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
                         <Area
                             type="monotone"
                             dataKey="delivery_cost"
+                            name="Средняя цена доставки"
                             stroke="#00BAFF"
                             fillOpacity={1}
                             fill="url(#colorUv)"
@@ -128,6 +138,7 @@ const CompanyGraphs = ({id}) => {
                         <Area
                             type="monotone"
                             dataKey="delivery_time"
+                            name="Среднее время доставки"
                             stroke="#395BEC"
                             fillOpacity={1}
                             fill="url(#colorPv)"
@@ -136,7 +147,7 @@ const CompanyGraphs = ({id}) => {
                 </div>
 
                 <div>
-                    <Title level={5} style={{textAlign: 'center'}}>
+                    <Title level={5} style={{ textAlign: 'center' }}>
                         Соотношение сорванных и <br></br>успешных заказов
                     </Title>
                     <PieChart width={250} height={200}>
@@ -151,10 +162,10 @@ const CompanyGraphs = ({id}) => {
                             label={renderCustomizedLabel}
                         >
                             {pieChart.map((entry, index) => (
-                                <Cell fill={COLORS[index % COLORS.length]}/>
+                                <Cell fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Legend height={'0'}/>
+                        <Legend height={'0'} />
                     </PieChart>
                 </div>
             </Skeleton>
