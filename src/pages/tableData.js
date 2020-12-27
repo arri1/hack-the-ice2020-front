@@ -150,7 +150,7 @@ const TableData = () => {
     useEffect(() => {
         axios
             .get(
-                'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D'
+                'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D'
             )
             .then(({ data: { items } }) => {
                 setLoading(false);
