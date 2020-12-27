@@ -1,62 +1,74 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/header';
-import {Input, Menu, Tabs} from 'antd';
+import {
+    EditOutlined,
+    EllipsisOutlined,
+    SettingOutlined,
+} from '@ant-design/icons';
 
-const {TabPane} = Tabs;
-const {SubMenu} = Menu;
-const {Search} = Input;
-const Container = styled.div``;
+import {
+    Input,
+    Menu,
+    Tabs,
+    Card,
+    Col,
+    Popover,
+    Button,
+    Row,
+    Space,
+    Image,
+    Typography,
+} from 'antd';
+
+const { TabPane } = Tabs;
+const { SubMenu } = Menu;
+const { Search } = Input;
+const { Title } = Typography;
+const { Meta } = Card;
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(196, 196, 196, 0.2);
+    height: 100vh;
+`;
+// const content = (
+//     <div>
+//         <p>Content</p>
+//         <p>Content</p>
+//     </div>
+// );
 const Home = () => {
     return (
         <Container>
-            <Header primary/>
-
-            <Tabs defaultActiveKey="1">
-                {[...Array.from({length: 15}, (v, i) => i)].map((i) => (
-                    <TabPane
-                        tab={`Tab-${i}`}
-                        key={i}
-                        disabled={i === 28}
-                    />
-                ))}
-            </Tabs>
-            <Menu
-                style={{width: 256}}
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
-                mode="inline"
-            >
-                <SubMenu key="sub1" title="Navigation One">
-                    <Menu.ItemGroup key="g1" title="Item 1">
-                        <Menu.Item key="1">Option 1</Menu.Item>
-                        <Menu.Item key="2">Option 2</Menu.Item>
-                    </Menu.ItemGroup>
-                    <Menu.ItemGroup key="g2" title="Item 2">
-                        <Menu.Item key="3">Option 3</Menu.Item>
-                        <Menu.Item key="4">Option 4</Menu.Item>
-                    </Menu.ItemGroup>
-                </SubMenu>
-                <SubMenu key="sub2" title="Navigation Two">
-                    <Menu.Item key="5">Option 5</Menu.Item>
-                    <Menu.Item key="6">Option 6</Menu.Item>
-                    <SubMenu key="sub3" title="Submenu">
-                        <Menu.Item key="7">Option 7</Menu.Item>
-                        <Menu.Item key="8">Option 8</Menu.Item>
-                    </SubMenu>
-                </SubMenu>
-                <SubMenu key="sub4" title="Navigation Three">
-                    <Menu.Item key="9">Option 9</Menu.Item>
-                    <Menu.Item key="10">Option 10</Menu.Item>
-                    <Menu.Item key="11">Option 11</Menu.Item>
-                    <Menu.Item key="12">Option 12</Menu.Item>
-                </SubMenu>
-
-                <Search
-                    placeholder="input search text"
-                    style={{width: 200, margin: '0 20px'}}
-                />
-            </Menu>
+            <Header primary />
+            <div>
+                <Row gutter={16}>
+                    <div className="site-card-border-less-wrapper">
+                        <Card
+                            title="Card title"
+                            bordered={false}
+                            style={{ width: 300 }}
+                            actions={[
+                                <Button type="primary">
+                                    Добавить в корзину
+                                </Button>,
+                            ]}
+                        >
+                            <Image
+                                width={'100%'}
+                                src="error"
+                                fallback="https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D"
+                            />
+                            <Meta
+                                style={{ marginTop: '20px' }}
+                                title="Europe Street beat"
+                                description="www.instagram.com"
+                            />
+                        </Card>
+                    </div>
+                </Row>
+            </div>
         </Container>
     );
 };
