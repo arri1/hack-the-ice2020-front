@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Select, Skeleton, Table} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Select, Skeleton, Table } from 'antd';
 import styled from 'styled-components';
 import axios from 'axios';
 import CompanyGraphs from '../components/companyGraphs';
 import SummaryGraphs from '../components/summaryGraphs';
 import Header from '../components/header';
 
-const {Option} = Select;
+const { Option } = Select;
 const options = [
     'Рейтинг',
     'Наименование организации',
@@ -43,7 +43,6 @@ const columns = [
         dataIndex: 'company',
         key: 'company',
         fixed: 'left',
-
     },
     {
         title: 'Верифицирован',
@@ -86,9 +85,9 @@ const columns = [
         dataIndex: 'mean_product_price',
         key: 'mean_product_price',
         sorter: (a, b) => a.mean_product_price - b.mean_product_price,
-        render: (value)=>{
+        render: (value) => {
             return value.toFixed(2);
-        }
+        },
     },
     {
         title: 'Кол-во товара',
@@ -154,15 +153,15 @@ const TableData = () => {
             .get(
                 'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D'
             )
-            .then(({data: {items}}) => {
-                let result = items.sort((a, b) => a.rate - b.rate)
-                let i = 0
-                result = result.map(item => {
-                    const newRes = {...item}
-                    i++
-                    newRes.rate = i
-                    return newRes
-                })
+            .then(({ data: { items } }) => {
+                let result = items.sort((a, b) => a.rate - b.rate);
+                let i = 0;
+                result = result.map((item) => {
+                    const newRes = { ...item };
+                    i++;
+                    newRes.rate = i;
+                    return newRes;
+                });
                 setLoading(false);
                 setData(result);
             })
@@ -171,32 +170,47 @@ const TableData = () => {
             });
     }, []);
 
-    const viewColumns = columns.reduce((acum, item) => {
-        if (selectedColumns.includes(item.title)) {
-            acum.push(item);
-        }
-        return acum;
-    }, [{
-        title: '#',
-        dataIndex: 'rate',
-        sorter: (a, b) => a.rate - b.rate,
-        defaultSortOrder:'ascend',
-        key: 'rate',
-        render:(value)=>{
-            if (value===1)
-                return <img src={'/images/icon1.svg'} alt={'icon1'}/>
-            if (value===2)
-                return <img src={'/images/icon2.svg'} alt={'icon2'}/>
-            if (value===3)
-                return <img src={'/images/icon3.svg'} alt={'icon3'}/>
+    const viewColumns = columns.reduce(
+        (acum, item) => {
+            if (selectedColumns.includes(item.title)) {
+                acum.push(item);
+            }
+            return acum;
+        },
+        [
+            {
+                title: '#',
+                dataIndex: 'rate',
+                sorter: (a, b) => a.rate - b.rate,
+                defaultSortOrder: 'ascend',
+                key: 'rate',
+                fixed: 'left',
+                render: (value) => {
+                    if (value === 1)
+                        return <img src={'/images/icon1.svg'} alt={'icon1'} />;
+                    if (value === 2)
+                        return <img src={'/images/icon2.svg'} alt={'icon2'} />;
+                    if (value === 3)
+                        return <img src={'/images/icon3.svg'} alt={'icon3'} />;
 
-            return <div style={{display:'flex',justifyContent:'center'}}>{value}</div>
-        }
-    }]);
+                    return (
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            {value}
+                        </div>
+                    );
+                },
+            },
+        ]
+    );
 
     return (
         <Container>
-            <Header/>
+            <Header />
             <Select
                 mode="multiple"
                 style={{
@@ -217,22 +231,22 @@ const TableData = () => {
                 loading={loading}
                 bordered={true}
                 rowKey={(obj) => obj.id}
-                style={{margin: '0 50px'}}
+                style={{ margin: '0 50px' }}
                 columns={viewColumns}
                 dataSource={data}
                 expandedRowRender={(record) => (
-                    <div style={{margin: 20}}>
-                        <CompanyGraphs id={record.id}/>
+                    <div style={{ margin: 20 }}>
+                        <CompanyGraphs id={record.id} />
                     </div>
                 )}
             />
             <Skeleton
                 title={false}
-                paragraph={{rows: 10}}
+                paragraph={{ rows: 10 }}
                 loading={loading}
                 width={'300px'}
             >
-                <SummaryGraphs data={data}/>
+                <SummaryGraphs data={data} />
             </Skeleton>
         </Container>
     );
