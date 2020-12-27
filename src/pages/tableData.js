@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Select, Skeleton, Table } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Select, Skeleton, Table} from 'antd';
 import styled from 'styled-components';
 import axios from 'axios';
 import CompanyGraphs from '../components/companyGraphs';
 import SummaryGraphs from '../components/summaryGraphs';
 import Header from '../components/header';
 
-const { Option } = Select;
+const {Option} = Select;
 const options = [
     'Рейтинг',
     'Наименование организации',
@@ -37,13 +37,28 @@ const Container = styled.div`
     flex-direction: column;
     background-color: rgba(196, 196, 196, 0.2);
 `;
+const charts = {
+    'Кол-во дней на сайте': 'days_online',
+    'Собственник': 'own',
+    'Медианное значение доставки': 'median_delivery_time',
+    'Средняя цена': 'mean_product_price',
+    'Кол-во выполненных заказов': 'good_orders',
+    'Кол-во сорванных заказов': 'bad_orders',
+    'Cреднее качество обратной связи': 'mean_feedback',
+    'Средний отзыв': 'mean_call',
+    'Средняя стоимость доставки': 'mean_cost_delivery',
+    'Кол-во товара': 'count_products',
+    'Медианная скидка': 'median_sale',
+    'Кол-во просмотров': 'sum_views'
+}
+
 const columns = [
     {
         title: 'Наименование организации',
         dataIndex: 'company',
         key: 'company',
         fixed: 'left',
-        render:(value)=>{
+        render: (value) => {
             return (
                 <a href={'https://ice-the-hack2020-market-front.herokuapp.com/'}>{value}</a>
             )
@@ -158,11 +173,11 @@ const TableData = () => {
             .get(
                 'https://hack-the-ice2020-python-back.herokuapp.com/api/companies/?page=0&per_page=10&sort_by=rate&is_descending=1&chosen_chars=%5B%22verification%22%2C%20%22days_online%22%2C%20%22own%22%2C%20%22median_delivery_time%22%2C%22mean_product_price%22%2C%22good_orders%22%2C%20%22bad_orders%22%2C%22mean_feedback%22%2C%20%22mean_call%22%2C%20%22mean_cost_delivery%22%2C%22count_products%22%2C%20%22median_sale%22%2C%20%22sum_views%22%5D'
             )
-            .then(({ data: { items } }) => {
+            .then(({data: {items}}) => {
                 let result = items.sort((a, b) => a.rate - b.rate);
                 let i = 0;
                 result = result.map((item) => {
-                    const newRes = { ...item };
+                    const newRes = {...item};
                     i++;
                     newRes.rate = i;
                     return newRes;
@@ -192,11 +207,11 @@ const TableData = () => {
                 fixed: 'left',
                 render: (value) => {
                     if (value === 1)
-                        return <img src={'/images/icon1.svg'} alt={'icon1'} />;
+                        return <img src={'/images/icon1.svg'} alt={'icon1'}/>;
                     if (value === 2)
-                        return <img src={'/images/icon2.svg'} alt={'icon2'} />;
+                        return <img src={'/images/icon2.svg'} alt={'icon2'}/>;
                     if (value === 3)
-                        return <img src={'/images/icon3.svg'} alt={'icon3'} />;
+                        return <img src={'/images/icon3.svg'} alt={'icon3'}/>;
 
                     return (
                         <div
@@ -212,22 +227,81 @@ const TableData = () => {
             },
         ]
     );
+    const getChosen = () => {
+
+        return viewColumns.reduce((acum, item) => {
+            if (charts[item.title] === undefined)
+                return acum
+            return [...acum, charts[item.title]]
+        }, [])
+    }
+
+    const onSearch = () => {
+        setLoading(true)
+        axios.get(`https://hack-the-ice2020-python-back.herokuapp.com/api/companies/category/1`,
+            {
+
+                method: 'get',
+                params: {
+                    page: 0,
+                    per_page: 10,
+                    sort_by: 'rate',
+                    is_descending: 1,
+                    chosen_chars: getChosen(),
+                    category_id: 1
+                }
+
+            }
+        )
+            .then(({data: {items}}) => {
+                let result = items.sort((a, b) => a.rate - b.rate);
+                let i = 0;
+                result = result.map((item) => {
+                    const newRes = {...item};
+                    i++;
+                    newRes.rate = i;
+                    return newRes;
+                });
+                setLoading(false);
+                setData(result);
+            })
+            .catch((e) => {
+                console.error(e)
+                setLoading(false);
+            });
+    }
 
     return (
         <Container>
-            <Header />
-            <Select
-                mode="multiple"
-                style={{
-                    width: '100%',
-                }}
-                placeholder="choose filters"
-                optionLabelProp="label"
-                value={selectedColumns}
-                onChange={(value) => setSelectedColumns(value)}
-            >
-                {displayOptions}
-            </Select>
+            <Header/>
+            <div style={{display: 'flex'}}>
+                <Select
+                    mode="multiple"
+                    style={{
+                        width: '100%',
+                    }}
+                    placeholder="choose filters"
+                    optionLabelProp="label"
+                    value={selectedColumns}
+                    onChange={(value) => setSelectedColumns(value)}
+                >
+                    {displayOptions}
+                </Select>
+                <div
+                    onClick={onSearch}
+                    style={{
+                        cursor:'pointer',
+                        display:'flex',
+                        justifyContent:'center',
+                        alignItems:'center',
+                        fontWeight:'bold',
+                        margin:20
+                    }}
+                >
+                    Поиск
+                </div>
+            </div>
+
 
             <Table
                 scroll={{
@@ -236,22 +310,22 @@ const TableData = () => {
                 loading={loading}
                 bordered={true}
                 rowKey={(obj) => obj.id}
-                style={{ margin: '0 50px' }}
+                style={{margin: '0 50px'}}
                 columns={viewColumns}
                 dataSource={data}
                 expandedRowRender={(record) => (
-                    <div style={{ margin: 20 }}>
-                        <CompanyGraphs id={record.id} />
+                    <div style={{margin: 20}}>
+                        <CompanyGraphs id={record.id}/>
                     </div>
                 )}
             />
             <Skeleton
                 title={false}
-                paragraph={{ rows: 10 }}
+                paragraph={{rows: 10}}
                 loading={loading}
                 width={'300px'}
             >
-                <SummaryGraphs data={data} />
+                <SummaryGraphs data={data}/>
             </Skeleton>
         </Container>
     );
