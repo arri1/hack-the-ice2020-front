@@ -86,6 +86,9 @@ const columns = [
         dataIndex: 'mean_product_price',
         key: 'mean_product_price',
         sorter: (a, b) => a.mean_product_price - b.mean_product_price,
+        render: (value)=>{
+            return value.toFixed(2);
+        }
     },
     {
         title: 'Кол-во товара',
@@ -177,8 +180,18 @@ const TableData = () => {
         title: '#',
         dataIndex: 'rate',
         sorter: (a, b) => a.rate - b.rate,
-        sortOrder:'ascend',
+        defaultSortOrder:'ascend',
         key: 'rate',
+        render:(value)=>{
+            if (value===1)
+                return <img src={'/images/icon1.svg'} alt={'icon1'}/>
+            if (value===2)
+                return <img src={'/images/icon2.svg'} alt={'icon2'}/>
+            if (value===3)
+                return <img src={'/images/icon3.svg'} alt={'icon3'}/>
+
+            return <div style={{display:'flex',justifyContent:'center'}}>{value}</div>
+        }
     }]);
 
     return (
