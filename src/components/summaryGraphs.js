@@ -1,10 +1,10 @@
 import React from 'react';
 import {Row, Typography} from 'antd';
-
-import {Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis,} from 'recharts';
+import Dimensions from 'react-dimensions'
+import {Area, Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis} from 'recharts';
 
 const {Title} = Typography;
-const SummaryGraphs = ({data: formattedData}) => {
+const SummaryGraphs = ({containerWidth,data}) => {
     return (
         <div style={{marginLeft: '30px'}}>
             <Row>
@@ -17,10 +17,10 @@ const SummaryGraphs = ({data: formattedData}) => {
                     </Title>
 
                     <ComposedChart
-                        width={650}
+                        width={containerWidth<570? containerWidth-80:650}
                         height={400}
-                        data={formattedData}
-                        margin={{top: 20, right: 20, bottom: 20, left: 20}}
+                        data={data}
+                        margin={{top: 20, bottom: 20}}
                     >
                         <CartesianGrid stroke="#f5f5f5"/>
                         <XAxis dataKey="company"/>
@@ -48,9 +48,9 @@ const SummaryGraphs = ({data: formattedData}) => {
                         скидка топ 10 компаниий
                     </Title>
                     <ComposedChart
-                        width={650}
+                        width={containerWidth<570? containerWidth-80:650}
                         height={400}
-                        data={formattedData}
+                        data={data}
                     >
                         <CartesianGrid stroke="#f5f5f5"/>
                         <XAxis dataKey="company"/>
@@ -85,10 +85,10 @@ const SummaryGraphs = ({data: formattedData}) => {
                     компаниий
                 </Title>
                 <BarChart
-                    width={1350}
+                    data={data}
+                    width={containerWidth-80}
                     height={300}
-                    data={formattedData}
-                    margin={{top: 20, right: 50, left: 20, bottom: 5}}
+                    margin={{top: 20, bottom: 20}}
                 >
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="company"/>
@@ -104,4 +104,4 @@ const SummaryGraphs = ({data: formattedData}) => {
     );
 };
 
-export default SummaryGraphs;
+export default Dimensions()(SummaryGraphs)
