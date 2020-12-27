@@ -43,6 +43,11 @@ const columns = [
         dataIndex: 'company',
         key: 'company',
         fixed: 'left',
+        render:(value)=>{
+            return (
+                <a href={'https://ice-the-hack2020-market-front.herokuapp.com/'}>{value}</a>
+            )
+        }
     },
     {
         title: 'Верифицирован',
